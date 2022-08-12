@@ -18,15 +18,14 @@ export const httpAxios: Http = {
   },
   post: async <T>(path: string, params?: Record<string, any>, config?: any) => {
     const response = await axios.post(
-      `${API_URL}/animal`,
-      { ...params },
-      { ...config, headers }
+      `${API_URL}/animal`, params
     );
     return response.data as T;
   },
-  put: async <T>(path: string, params?: Record<string, any>, config?: any) => {
+  put: async <T>(path: string, params?: any, config?: any) => {
+    const {id} = params;
     const response = await axios.put(
-      `${API_URL}/animal`,
+      `${API_URL}/animal/${id}`,
       { ...params },
       { ...config, headers }
     );

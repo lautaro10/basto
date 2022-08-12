@@ -1,7 +1,6 @@
 import { Animal } from "../../domain/models/Animal";
 import { AnimalRepository } from "../../domain/repositories/AnimalRepository";
 import { Http } from "../../domain/repositories/Http";
-// import { AnimalDTO } from "../http/dto/AnimalDTO";
 
 export const animalRepository = (client: Http): AnimalRepository => ({
   getAnimals: async () => {
@@ -19,7 +18,17 @@ export const animalRepository = (client: Http): AnimalRepository => ({
   },
 
   deleteAnimal: async (id: string) => {
-    const animal = await client.delete<Animal>("",{id });
+    const animal = await client.delete<Animal>("", { id });
     return animal["data"];
+  },
+
+  addAnimal: async (animal: Animal) => {
+    const response = await client.post<Animal>("", animal);
+    return response["data"];
+  },
+
+  updateAnimal: async (animal: Animal) => {
+    const response = await client.put<Animal>("", animal);
+    return response["data"];
   },
 });

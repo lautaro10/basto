@@ -8,12 +8,12 @@ export type Animal = {
 };
 
 export enum AnimalTypeEnum {
-  NOVILLO,
-  TORO,
-  VAQUILLONA,
+  NOVILLO = "Novillo",
+  TORO = "Toro",
+  VAQUILLONA = "Vaquillona",
 }
 
 export enum DeviceTypeEnum {
-  COLLAR,
-  CARAVANA,
+  COLLAR = "Collar",
+  CARAVANA = "Caravana",
 }

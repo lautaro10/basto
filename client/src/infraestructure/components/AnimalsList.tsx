@@ -5,11 +5,14 @@ import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import MenuIcon from "@mui/icons-material/Menu";
 import usePagination from "../hooks/usePagination";
 import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
+import CreateIcon from "@mui/icons-material/Create";
 
 function AnimalsList() {
   const [animals, setAnimals] = useState<Animal[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const { rowsPerPage, setRowsPerPage } = usePagination();
+  const navigate = useNavigate();
 
   const getAnimals = useCallback(async () => {
     setLoading(true);
@@ -25,6 +28,7 @@ function AnimalsList() {
   }, []);
 
   const deleteAnimal = useCallback(async (id: string) => {
+    navigate("/form", { state: { id: 7, color: "green" } });
     try {
       const responseAnimals = await AnimalService(
         AnimalRepositoryFake
@@ -32,6 +36,10 @@ function AnimalsList() {
       getAnimals();
     } catch (exception) {}
   }, []);
+
+  const navigateToForm = (params: any) => {
+    navigate("/update", { state: params });
+  };
 
   const deleteAnimalModal = (id: string) => {
     deleteAnimal(id);
@@ -42,7 +50,12 @@ function AnimalsList() {
   }, []);
 
   const renderDetailsButton = (params: any) => {
-    return <MenuIcon onClick={() => deleteAnimalModal(params.id)} />;
+    return (
+      <>
+        <MenuIcon onClick={() => deleteAnimalModal(params.id)} />{" "}
+        <CreateIcon onClick={() => navigateToForm(params.row)} />
+      </>
+    );
   };
 
   const columns = [

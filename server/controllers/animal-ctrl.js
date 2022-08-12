@@ -43,22 +43,24 @@ updateAnimal = async (req, res) => {
     });
   }
 
-  Animal.findOne({ _id: req.params.id }, (err, animal) => {
+  Animal.findOne({ id: req.params.id }, (err, animal) => {
     if (err) {
       return res.status(404).json({
         err,
         message: "Animal not found!",
       });
     }
-    animal.name = body.name;
-    animal.time = body.time;
-    animal.rating = body.rating;
+    animal.animalType = body.animalType;
+    animal.weight = body.weight;
+    animal.deviceNumber = body.deviceNumber;
+    animal.deviceType = body.deviceType;
+    animal.farmName = body.farmName;
     animal
       .save()
       .then(() => {
         return res.status(200).json({
           success: true,
-          id: animal._id,
+          id: animal.id,
           message: "Animal updated!",
         });
       })

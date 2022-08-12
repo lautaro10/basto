@@ -7,9 +7,12 @@ export const AnimalService = (
   getAnimals: () => {
     return repository.getAnimals();
   },
-  // addAnimal: (animal: Animal) => {
-  //   return repository.addAnimal(animal);
-  // },
+  addAnimal: (animal: Animal) => {
+    return repository.addAnimal(animal);
+  },
+  updateAnimal: (animal: Animal) => {
+    return repository.updateAnimal(animal);
+  },
   deleteAnimal: (id: string) => {
     return repository.deleteAnimal(id);
   },
