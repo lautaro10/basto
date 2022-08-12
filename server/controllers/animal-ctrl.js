@@ -109,6 +109,5 @@ module.exports = {
   createAnimal,
   updateAnimal,
   deleteAnimal,
-  getAnimals,
-  getAnimalById,
+  getAnimals
 };
