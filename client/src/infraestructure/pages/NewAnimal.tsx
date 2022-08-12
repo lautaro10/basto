@@ -23,9 +23,7 @@ const NewAnimal = () => {
 
   const onSubmit = async (data: Animal) => {
     try {
-      const responseAnimals = await AnimalService(
-        AnimalRepositoryFake
-      ).addAnimal(data);
+      await AnimalService(AnimalRepositoryFake).addAnimal(data);
       openToast();
     } catch (exception) {
       console.log("Err");
@@ -42,7 +40,7 @@ const NewAnimal = () => {
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
-        onClose={() => closeToast()}
+        onClose={closeToast}
         message="Animal agregado correctamente"
       />
     </>

@@ -2,11 +2,12 @@ import React, { useCallback, useState } from "react";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
-import MenuIcon from "@mui/icons-material/Menu";
+import DeleteIcon from "@mui/icons-material/Delete";
 import usePagination from "../hooks/usePagination";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
+import Button from "@mui/material/Button";
 
 function AnimalsList() {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -28,7 +29,6 @@ function AnimalsList() {
   }, []);
 
   const deleteAnimal = useCallback(async (id: string) => {
-    navigate("/form", { state: { id: 7, color: "green" } });
     try {
       const responseAnimals = await AnimalService(
         AnimalRepositoryFake
@@ -41,10 +41,6 @@ function AnimalsList() {
     navigate("/update", { state: params });
   };
 
-  const deleteAnimalModal = (id: string) => {
-    deleteAnimal(id);
-  };
-
   React.useEffect(() => {
     getAnimals();
   }, []);
@@ -52,8 +48,12 @@ function AnimalsList() {
   const renderDetailsButton = (params: any) => {
     return (
       <>
-        <MenuIcon onClick={() => deleteAnimalModal(params.id)} />{" "}
-        <CreateIcon onClick={() => navigateToForm(params.row)} />
+        <Button onClick={() => deleteAnimal(params.id)}>
+          <DeleteIcon color="error" />
+        </Button>
+        <Button onClick={() => navigateToForm(params.row)}>
+          <CreateIcon />
+        </Button>
       </>
     );
   };
@@ -61,7 +61,7 @@ function AnimalsList() {
   const columns = [
     { field: "id", headerName: "ID", width: 150 },
     { field: "animalType", headerName: "Tipo Animal", width: 150 },
-    { field: "weight", headerName: "Peso&nbsp;(Kg)", width: 150 },
+    { field: "weight", headerName: "Peso (Kg)", width: 150 },
     { field: "deviceType", headerName: "Tipo Dispositivo", width: 150 },
     { field: "deviceNumber", headerName: "Número Dispositivo", width: 150 },
     { field: "farmName", headerName: "Nombre Potrero", width: 150 },
@@ -74,7 +74,7 @@ function AnimalsList() {
   ];
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "80%" }}>
       <DataGrid
         columns={columns}
         rows={animals || []}
@@ -82,9 +82,16 @@ function AnimalsList() {
         loading={loading}
         pageSize={rowsPerPage}
         onPageSizeChange={(newPageSize) => setRowsPerPage(newPageSize)}
-        rowsPerPageOptions={[5, 10, 20]}
+        rowsPerPageOptions={[5, 10]}
         pagination
         autoHeight
+        sx={{
+          boxShadow: 2,
+          border: 2,
+          "& .MuiDataGrid-cell:hover": {
+            color: "primary.main",
+          },
+        }}
       />
     </div>
   );
