@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Animal,
   AnimalTypeEnum,
@@ -8,9 +7,11 @@ import { AnimalService } from "../../domain/services/AnimalService";
 import AnimalForm from "../components/AnimalForm";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import Snackbar from "@mui/material/Snackbar";
+import useToast from "../hooks/useToast";
 
 const NewAnimal = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const { open, openToast, closeToast } = useToast();
+
   const defaultValues: Animal = {
     id: "",
     animalType: AnimalTypeEnum.NOVILLO,
@@ -20,18 +21,16 @@ const NewAnimal = () => {
     farmName: "",
   };
 
-  const onSubmit = async(data: Animal) => {
+  const onSubmit = async (data: Animal) => {
     try {
       const responseAnimals = await AnimalService(
         AnimalRepositoryFake
       ).addAnimal(data);
-      setOpen(true);
+      openToast();
     } catch (exception) {
       console.log("Err");
     }
   };
-
-  const onCloseToast = () => setOpen(false);
 
   return (
     <>
@@ -39,8 +38,13 @@ const NewAnimal = () => {
         defaultValues={defaultValues}
         onSubmitEvent={(data: Animal) => onSubmit(data)}
         isEdition={false}
-      />{" "}
-      <Snackbar open={open} onClose={onCloseToast} message="Agregado correctamente" />{" "}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        onClose={() => closeToast()}
+        message="Animal agregado correctamente"
+      />
     </>
   );
 };

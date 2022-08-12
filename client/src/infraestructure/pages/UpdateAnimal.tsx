@@ -4,10 +4,10 @@ import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import Snackbar from "@mui/material/Snackbar";
-import { useState } from "react";
+import useToast from "../hooks/useToast";
 
 const UpdateAnimal = () => {
-    const [open, setOpen] = useState<boolean>(false);
+  const { open, openToast, closeToast } = useToast();
   const location = useLocation();
   const { id, animalType, weight, farmName, deviceNumber, deviceType } =
     location.state as Animal;
@@ -21,18 +21,16 @@ const UpdateAnimal = () => {
     farmName: farmName,
   };
 
-  const onSubmit = async(data: Animal) => {
+  const onSubmit = async (data: Animal) => {
     try {
       const responseAnimals = await AnimalService(
         AnimalRepositoryFake
       ).updateAnimal(data);
-      setOpen(true);
+      openToast();
     } catch (exception) {
       console.log("Err");
     }
   };
-
-  const onCloseToast = () => setOpen(false);
 
   return (
     <>
@@ -40,8 +38,13 @@ const UpdateAnimal = () => {
         defaultValues={defaultValues}
         onSubmitEvent={(data: Animal) => onSubmit(data)}
         isEdition={true}
-      />{" "}
-      <Snackbar open={open} onClose={onCloseToast} message="Editado correctamente" />{" "}
+      />
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        onClose={() => closeToast()}
+        message="Animal Editado correctamente"
+      />
     </>
   );
 };

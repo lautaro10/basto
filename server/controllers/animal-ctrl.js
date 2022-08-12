@@ -6,7 +6,7 @@ createAnimal = (req, res) => {
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a animal",
+      error: "No se encontraron datos del animal",
     });
   }
 
@@ -22,13 +22,13 @@ createAnimal = (req, res) => {
       return res.status(201).json({
         success: true,
         id: animal._id,
-        message: "Animal created!",
+        message: "El Animal fue creado correctamente!",
       });
     })
     .catch((error) => {
       return res.status(400).json({
         error,
-        message: "Animal not created!",
+        message: "El Animal no pudo ser creado!",
       });
     });
 };
@@ -39,7 +39,7 @@ updateAnimal = async (req, res) => {
   if (!body) {
     return res.status(400).json({
       success: false,
-      error: "You must provide a body to update",
+      error: "No se encontraron datos para actualizar el animal",
     });
   }
 
@@ -47,7 +47,7 @@ updateAnimal = async (req, res) => {
     if (err) {
       return res.status(404).json({
         err,
-        message: "Animal not found!",
+        message: "Ocurrió un error al actualizar el animal!",
       });
     }
     animal.animalType = body.animalType;
@@ -61,13 +61,13 @@ updateAnimal = async (req, res) => {
         return res.status(200).json({
           success: true,
           id: animal.id,
-          message: "Animal updated!",
+          message: "El animal fue actualizado correctamente!",
         });
       })
       .catch((error) => {
         return res.status(404).json({
           error,
-          message: "Animal not updated!",
+          message: "Ocurrió un error al actualizar el animal!",
         });
       });
   });
@@ -80,26 +80,12 @@ deleteAnimal = async (req, res) => {
     }
 
     if (!animal) {
-      return res
-        .status(404)
-        .json({ success: false, error: `Animal not found` });
+      return res.status(404).json({
+        success: false,
+        error: `Ocurrió un error al eliminar el animal`,
+      });
     }
 
-    return res.status(200).json({ success: true, data: animal });
-  }).catch((err) => console.log(err));
-};
-
-getAnimalById = async (req, res) => {
-  await Animal.findOne({ _id: req.params.id }, (err, animal) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err });
-    }
-
-    if (!animal) {
-      return res
-        .status(404)
-        .json({ success: false, error: `Animal not found` });
-    }
     return res.status(200).json({ success: true, data: animal });
   }).catch((err) => console.log(err));
 };
@@ -110,9 +96,10 @@ getAnimals = async (req, res) => {
       return res.status(400).json({ success: false, error: err });
     }
     if (!animals.length) {
-      return res
-        .status(404)
-        .json({ success: false, error: `Animal not found` });
+      return res.status(404).json({
+        success: false,
+        error: `Ocurrió un error al obtener los animales`,
+      });
     }
     return res.status(200).json({ success: true, data: animals });
   }).catch((err) => console.log(err));
