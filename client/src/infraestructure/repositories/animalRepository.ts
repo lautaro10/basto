@@ -6,7 +6,7 @@ export const animalRepository = (client: Http): AnimalRepository => ({
   getAnimals: async () => {
     const animals = await client.get<Animal>("");
     return animals["data"].map(
-      (animal: any): Animal => ({
+      (animal: Animal): Animal => ({
         id: animal.id,
         animalType: animal.animalType,
         weight: animal.weight,

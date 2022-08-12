@@ -1,13 +1,14 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import DeleteIcon from "@mui/icons-material/Delete";
 import usePagination from "../hooks/usePagination";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 function AnimalsList() {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -30,18 +31,16 @@ function AnimalsList() {
 
   const deleteAnimal = useCallback(async (id: string) => {
     try {
-      const responseAnimals = await AnimalService(
-        AnimalRepositoryFake
-      ).deleteAnimal(id);
+      await AnimalService(AnimalRepositoryFake).deleteAnimal(id);
       getAnimals();
     } catch (exception) {}
   }, []);
 
-  const navigateToForm = (params: any) => {
+  const navigateToForm = (params: Animal) => {
     navigate("/update", { state: params });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     getAnimals();
   }, []);
 
@@ -73,6 +72,22 @@ function AnimalsList() {
     },
   ];
 
+  const QuickSearchToolbar = () => {
+    return (
+      <Box sx={{ p: 2 }}>
+        <GridToolbarQuickFilter
+          placeholder="Busqueda"
+          quickFilterParser={(searchInput: string) =>
+            searchInput
+              .split(",")
+              .map((value) => value.trim())
+              .filter((value) => value !== "")
+          }
+        />
+      </Box>
+    );
+  };
+
   return (
     <div style={{ width: "80%" }}>
       <DataGrid
@@ -92,6 +107,7 @@ function AnimalsList() {
             color: "primary.main",
           },
         }}
+        components={{ Toolbar: QuickSearchToolbar }}
       />
     </div>
   );
