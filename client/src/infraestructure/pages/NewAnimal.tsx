@@ -1,8 +1,4 @@
-import {
-  Animal,
-  AnimalTypeEnum,
-  DeviceTypeEnum,
-} from "../../domain/models/Animal";
+import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import AnimalForm from "../components/AnimalForm";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
@@ -11,15 +7,6 @@ import useToast from "../hooks/useToast";
 
 const NewAnimal = () => {
   const { open, openToast, closeToast } = useToast();
-
-  const defaultValues: Animal = {
-    id: "",
-    animalType: AnimalTypeEnum.NOVILLO,
-    weight: 0,
-    deviceType: DeviceTypeEnum.CARAVANA,
-    deviceNumber: "",
-    farmName: "",
-  };
 
   const onSubmit = async (data: Animal) => {
     try {
@@ -33,7 +20,6 @@ const NewAnimal = () => {
   return (
     <>
       <AnimalForm
-        defaultValues={defaultValues}
         onSubmitEvent={(data: Animal) => onSubmit(data)}
         isEdition={false}
       />

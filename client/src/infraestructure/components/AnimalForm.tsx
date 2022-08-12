@@ -11,7 +11,15 @@ import Button from "@mui/material/Button";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useNavigate } from "react-router-dom";
 
-const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
+const AnimalForm = ({
+  defaultValues,
+  onSubmitEvent,
+  isEdition,
+}: {
+  defaultValues?: any;
+  onSubmitEvent: any;
+  isEdition: boolean;
+}) => {
   const navigate = useNavigate();
   const {
     control,
@@ -22,6 +30,7 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
   });
 
   const onSubmit = async (data: Animal) => {
+    console.log("aaa", errors);
     onSubmitEvent(data);
     if (Object.keys(errors).length === 0) {
       onSubmitEvent(data);
@@ -66,9 +75,15 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
         name="animalType"
         control={control}
         rules={{ required: true }}
-        render={() => (
+        render={({ field }) => (
           <>
-            <TextField id="animalType" select label="Tipo Animal">
+            <TextField
+              id="animalType"
+              select
+              label="Tipo Animal"
+              {...field}
+              error={!!errors.animalType}
+            >
               <MenuItem value={AnimalTypeEnum.NOVILLO}>
                 {AnimalTypeEnum.NOVILLO}
               </MenuItem>
@@ -94,13 +109,17 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
         render={({ field }) => (
           <TextField
             {...field}
+            error={!!errors.weight}
             id="weight"
             label="Weight*"
             helperText="Ingrese el peso del animal"
           />
         )}
       />
-      {errors.weight && <p>This is required.</p>}
+      <FormHelperText>
+        {errors.weight?.type === "required" &&
+          "El peso del animal es requerido"}
+      </FormHelperText>
       <div>
         <Controller
           name="farmName"
@@ -109,6 +128,7 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
           render={({ field }) => (
             <TextField
               {...field}
+              error={!!errors.farmName}
               id="farmName"
               label="farmName*"
               helperText="Ingrese nombre del potrero"
@@ -129,6 +149,7 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
           <>
             <TextField
               {...field}
+              error={!!errors.deviceType}
               id="deviceType"
               select
               label="Tipo Dispositivo"
@@ -154,6 +175,7 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
         render={({ field }) => (
           <TextField
             {...field}
+            error={!!errors.deviceNumber}
             id="deviceNumber"
             label="Número de dispositivo*"
             helperText="Ingrese número de dispositivo"
@@ -166,7 +188,7 @@ const AnimalForm = ({ defaultValues, onSubmitEvent, isEdition }: any) => {
       </FormHelperText>
       <div style={{ display: "flex", justifyItems: "space-around" }}>
         <Button type="submit" variant="outlined">
-          {isEdition ? "Agregar" : "Editar"}
+          {isEdition ? "Editar" : "Agregar"}
         </Button>
         <Button type="submit" variant="outlined" onClick={() => navigate("/")}>
           Volver

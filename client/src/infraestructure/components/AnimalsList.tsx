@@ -1,48 +1,23 @@
-import { useCallback, useEffect, useState } from "react";
 import { Animal } from "../../domain/models/Animal";
-import { AnimalService } from "../../domain/services/AnimalService";
-import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import DeleteIcon from "@mui/icons-material/Delete";
 import usePagination from "../hooks/usePagination";
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 
-function AnimalsList() {
-  const [animals, setAnimals] = useState<Animal[]>();
-  const [loading, setLoading] = useState<boolean>(false);
+const AnimalsList =({
+  animals,
+  deleteAnimal,
+  updateAnimal,
+  loading,
+}: {
+  animals?: Animal[];
+  deleteAnimal: any;
+  updateAnimal: any;
+  loading: boolean;
+}) => {
   const { rowsPerPage, setRowsPerPage } = usePagination();
-  const navigate = useNavigate();
-
-  const getAnimals = useCallback(async () => {
-    setLoading(true);
-    try {
-      const responseAnimals = await AnimalService(
-        AnimalRepositoryFake
-      ).getAnimals();
-      setAnimals(responseAnimals);
-      setLoading(false);
-    } catch (exception) {
-      setLoading(false);
-    }
-  }, []);
-
-  const deleteAnimal = useCallback(async (id: string) => {
-    try {
-      await AnimalService(AnimalRepositoryFake).deleteAnimal(id);
-      getAnimals();
-    } catch (exception) {}
-  }, []);
-
-  const navigateToForm = (params: Animal) => {
-    navigate("/update", { state: params });
-  };
-
-  useEffect(() => {
-    getAnimals();
-  }, []);
 
   const renderDetailsButton = (params: any) => {
     return (
@@ -50,7 +25,7 @@ function AnimalsList() {
         <Button onClick={() => deleteAnimal(params.id)}>
           <DeleteIcon color="error" />
         </Button>
-        <Button onClick={() => navigateToForm(params.row)}>
+        <Button onClick={() => updateAnimal(params.row)}>
           <CreateIcon />
         </Button>
       </>
