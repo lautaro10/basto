@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 
 const UpdateAnimal = () => {
   const [defaultVal, setDefaultVal] = useState({});
-  const { open, openToast, closeToast } = useToast();
+  const { open, openToast, closeToast, message } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,14 +31,19 @@ const UpdateAnimal = () => {
     }
   }, [location, navigate]);
 
-  const onSubmit = async (data: Animal) => {
+  const onSubmit = async (animal: Animal) => {
+    if (JSON.stringify(animal) === JSON.stringify(defaultVal)) {
+      return openToast("No hay cambios realizados en el formulario");
+    }
     try {
-      await AnimalService(AnimalRepositoryFake).updateAnimal(data);
-      openToast();
+      await AnimalService(AnimalRepositoryFake).updateAnimal(animal);
+      openToast("Animal Editado correctamente");
     } catch (exception) {
-      console.log("Err");
+      openToast("El animal no pudo ser editado");
     }
   };
+
+  const navigateToHome = () => navigate("/");
 
   return (
     <>
@@ -48,16 +53,16 @@ const UpdateAnimal = () => {
       {Object.keys(defaultVal).length > 0 && (
         <AnimalForm
           defaultValues={defaultVal}
-          onSubmitEvent={(data: Animal) => onSubmit(data)}
+          onSubmitEvent={(animal: Animal) => onSubmit(animal)}
+          onCancelEvent={navigateToHome}
           isEdition={true}
         />
       )}
-
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={closeToast}
-        message="Animal Editado correctamente"
+        message={message}
       />
     </>
   );

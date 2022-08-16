@@ -6,10 +6,13 @@ import { useCallback, useEffect, useState } from "react";
 import AnimalsList from "../components/AnimalsList";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
+import useToast from "../hooks/useToast";
 
 const Animals = () => {
   const [animals, setAnimals] = useState<Animal[]>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { open, openToast, closeToast, message } = useToast();
   const navigate = useNavigate();
 
   const getAnimals = useCallback(async () => {
@@ -22,14 +25,18 @@ const Animals = () => {
       setLoading(false);
     } catch (exception) {
       setLoading(false);
+      openToast("No se pudieron obtener los aninmales");
     }
   }, []);
 
   const deleteAnimal = useCallback(async (id: string) => {
     try {
       await AnimalService(AnimalRepositoryFake).deleteAnimal(id);
+      openToast("Animal eliminado correctamente");
       getAnimals();
-    } catch (exception) {}
+    } catch (exception) {
+      openToast("El animal no pudo ser eliminado");
+    }
   }, []);
 
   const navigateToEditAnimal = (params: Animal) =>
@@ -59,6 +66,12 @@ const Animals = () => {
           loading={loading}
         />
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        open={open}
+        onClose={closeToast}
+        message={message}
+      />
     </>
   );
 };

@@ -9,18 +9,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormHelperText from "@mui/material/FormHelperText";
-import { useNavigate } from "react-router-dom";
 
 const AnimalForm = ({
   defaultValues,
   onSubmitEvent,
+  onCancelEvent,
   isEdition,
 }: {
   defaultValues?: any;
   onSubmitEvent: any;
+  onCancelEvent: any;
   isEdition: boolean;
 }) => {
-  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -196,7 +196,7 @@ const AnimalForm = ({
       <div style={{}}>
         <Button
           variant="contained"
-          onClick={() => navigate("/")}
+          onClick={onCancelEvent}
           style={{ marginRight: "30px" }}
         >
           Cancelar

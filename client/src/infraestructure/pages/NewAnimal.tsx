@@ -5,18 +5,22 @@ import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import Snackbar from "@mui/material/Snackbar";
 import useToast from "../hooks/useToast";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 const NewAnimal = () => {
-  const { open, openToast, closeToast } = useToast();
+  const navigate = useNavigate();
+  const { open, openToast, closeToast, message } = useToast();
 
   const onSubmit = async (animal: Animal) => {
     try {
       await AnimalService(AnimalRepositoryFake).addAnimal(animal);
-      openToast();
+      openToast("Animal agregado correctamente");
     } catch (exception) {
-      console.log("Err");
+      openToast("El animal no pudo ser agregado");
     }
   };
+
+  const navigateToHome = () => navigate("/");
 
   return (
     <>
@@ -24,14 +28,15 @@ const NewAnimal = () => {
         <h2>Nuevo animal</h2>
       </Box>
       <AnimalForm
-        onSubmitEvent={(data: Animal) => onSubmit(data)}
+        onSubmitEvent={(animal: Animal) => onSubmit(animal)}
+        onCancelEvent={navigateToHome}
         isEdition={false}
       />
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={closeToast}
-        message="Animal agregado correctamente"
+        message={message}
       />
     </>
   );
