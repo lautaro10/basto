@@ -6,6 +6,7 @@ import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import Snackbar from "@mui/material/Snackbar";
 import useToast from "../hooks/useToast";
 import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
 
 const UpdateAnimal = () => {
   const [defaultVal, setDefaultVal] = useState({});
@@ -41,6 +42,9 @@ const UpdateAnimal = () => {
 
   return (
     <>
+      <Box paddingLeft={5}>
+        <h2>Editar animal</h2>
+      </Box>
       {Object.keys(defaultVal).length > 0 && (
         <AnimalForm
           defaultValues={defaultVal}

@@ -30,8 +30,6 @@ const AnimalForm = ({
   });
 
   const onSubmit = async (data: Animal) => {
-    console.log("aaa", errors);
-    onSubmitEvent(data);
     if (Object.keys(errors).length === 0) {
       onSubmitEvent(data);
     }
@@ -45,7 +43,7 @@ const AnimalForm = ({
       flexDirection="column"
       component="form"
       sx={{
-        "& .MuiTextField-root": { m: 1, width: "25ch" },
+        "& .MuiTextField-root": { m: 1, width: "40ch" },
       }}
       noValidate
       autoComplete="off"
@@ -61,15 +59,16 @@ const AnimalForm = ({
             error={!!errors.id}
             id="id"
             {...field}
-            helperText="Ingrese id de senasa"
+            helperText={
+              <FormHelperText>
+                {errors.id?.type === "required" && "Id es requerido"}
+                {errors.id?.type === "maxLength" && "La longitud maxima es 16"}
+              </FormHelperText>
+            }
             disabled={isEdition}
           />
         )}
       />
-      <FormHelperText>
-        {errors.id?.type === "required" && "Id es requerido"}
-        {errors.id?.type === "maxLength" && "La longitud maxima es 16"}
-      </FormHelperText>
 
       <Controller
         name="animalType"
@@ -80,9 +79,15 @@ const AnimalForm = ({
             <TextField
               id="animalType"
               select
-              label="Tipo Animal"
+              label="Tipo Animal*"
               {...field}
               error={!!errors.animalType}
+              helperText={
+                <FormHelperText>
+                  {errors.animalType?.type === "required" &&
+                    "El tipo de animal es requerido"}
+                </FormHelperText>
+              }
             >
               <MenuItem value={AnimalTypeEnum.NOVILLO}>
                 {AnimalTypeEnum.NOVILLO}
@@ -97,10 +102,6 @@ const AnimalForm = ({
           </>
         )}
       />
-      <FormHelperText>
-        {errors.animalType?.type === "required" &&
-          "El tipo de animal es requerido"}
-      </FormHelperText>
 
       <Controller
         name="weight"
@@ -112,14 +113,15 @@ const AnimalForm = ({
             error={!!errors.weight}
             id="weight"
             label="Weight*"
-            helperText="Ingrese el peso del animal"
+            helperText={
+              <FormHelperText>
+                {errors.weight?.type === "required" &&
+                  "El peso del animal es requerido"}
+              </FormHelperText>
+            }
           />
         )}
       />
-      <FormHelperText>
-        {errors.weight?.type === "required" &&
-          "El peso del animal es requerido"}
-      </FormHelperText>
       <div>
         <Controller
           name="farmName"
@@ -130,16 +132,18 @@ const AnimalForm = ({
               {...field}
               error={!!errors.farmName}
               id="farmName"
-              label="farmName*"
-              helperText="Ingrese nombre del potrero"
+              label="Nombre de potrero*"
+              helperText={
+                <FormHelperText>
+                  {errors.farmName?.type === "required" &&
+                    "El nombre del campo es requerido"}
+                  {errors.farmName?.type === "maxLength" &&
+                    "La longitud maxima es 200"}
+                </FormHelperText>
+              }
             />
           )}
         />
-        <FormHelperText>
-          {errors.farmName?.type === "required" &&
-            "El nombre del campo es requerido"}
-          {errors.farmName?.type === "maxLength" && "La longitud maxima es 200"}
-        </FormHelperText>
       </div>
       <Controller
         name="deviceType"
@@ -152,7 +156,13 @@ const AnimalForm = ({
               error={!!errors.deviceType}
               id="deviceType"
               select
-              label="Tipo Dispositivo"
+              label="Tipo Dispositivo*"
+              helperText={
+                <FormHelperText>
+                  {errors.deviceType?.type === "required" &&
+                    "El tipo de dispositivo es requerido"}
+                </FormHelperText>
+              }
             >
               <MenuItem value={DeviceTypeEnum.CARAVANA}>
                 {DeviceTypeEnum.CARAVANA}
@@ -164,10 +174,6 @@ const AnimalForm = ({
           </>
         )}
       />
-      <FormHelperText>
-        {errors.deviceType?.type === "required" &&
-          "El tipo de dispositivo es requerido"}
-      </FormHelperText>
       <Controller
         name="deviceNumber"
         control={control}
@@ -178,20 +184,25 @@ const AnimalForm = ({
             error={!!errors.deviceNumber}
             id="deviceNumber"
             label="Número de dispositivo*"
-            helperText="Ingrese número de dispositivo"
+            helperText={
+              <FormHelperText>
+                {errors.deviceNumber?.type === "required" &&
+                  "El número de dispositivo es requerido"}
+              </FormHelperText>
+            }
           />
         )}
       />
-      <FormHelperText>
-        {errors.deviceType?.type === "required" &&
-          "El número de dispositivo es requerido"}
-      </FormHelperText>
-      <div style={{ display: "flex", justifyItems: "space-around" }}>
-        <Button type="submit" variant="outlined">
-          {isEdition ? "Editar" : "Agregar"}
+      <div style={{}}>
+        <Button
+          variant="contained"
+          onClick={() => navigate("/")}
+          style={{ marginRight: "30px" }}
+        >
+          Cancelar
         </Button>
-        <Button type="submit" variant="outlined" onClick={() => navigate("/")}>
-          Volver
+        <Button type="submit" variant="contained">
+          {isEdition ? "Editar" : "Agregar"}
         </Button>
       </div>
     </Box>

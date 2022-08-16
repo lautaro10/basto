@@ -5,8 +5,9 @@ import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import { searchValue } from "../utils/searchValue";
 
-const AnimalsList =({
+const AnimalsList = ({
   animals,
   deleteAnimal,
   updateAnimal,
@@ -22,11 +23,11 @@ const AnimalsList =({
   const renderDetailsButton = (params: any) => {
     return (
       <>
-        <Button onClick={() => deleteAnimal(params.id)}>
-          <DeleteIcon color="error" />
-        </Button>
         <Button onClick={() => updateAnimal(params.row)}>
           <CreateIcon />
+        </Button>
+        <Button onClick={() => deleteAnimal(params.id)}>
+          <DeleteIcon color="error" />
         </Button>
       </>
     );
@@ -38,7 +39,7 @@ const AnimalsList =({
     { field: "weight", headerName: "Peso (Kg)", width: 150 },
     { field: "deviceType", headerName: "Tipo Dispositivo", width: 150 },
     { field: "deviceNumber", headerName: "Número Dispositivo", width: 150 },
-    { field: "farmName", headerName: "Nombre Potrero", width: 150 },
+    { field: "farmName", headerName: "Nombre Potrero", flex: 1, minWidth: 150 },
     {
       field: "actions",
       headerName: "Acciones",
@@ -52,40 +53,34 @@ const AnimalsList =({
       <Box sx={{ p: 2 }}>
         <GridToolbarQuickFilter
           placeholder="Busqueda"
-          quickFilterParser={(searchInput: string) =>
-            searchInput
-              .split(",")
-              .map((value) => value.trim())
-              .filter((value) => value !== "")
-          }
+          quickFilterParser={(searchInput: string) => searchValue(searchInput)}
         />
       </Box>
     );
   };
 
   return (
-    <div style={{ width: "80%" }}>
-      <DataGrid
-        columns={columns}
-        rows={animals || []}
-        disableColumnMenu
-        loading={loading}
-        pageSize={rowsPerPage}
-        onPageSizeChange={(newPageSize) => setRowsPerPage(newPageSize)}
-        rowsPerPageOptions={[5, 10]}
-        pagination
-        autoHeight
-        sx={{
-          boxShadow: 2,
-          border: 2,
-          "& .MuiDataGrid-cell:hover": {
-            color: "primary.main",
-          },
-        }}
-        components={{ Toolbar: QuickSearchToolbar }}
-      />
-    </div>
+    <DataGrid
+      columns={columns}
+      rows={animals || []}
+      disableColumnMenu
+      loading={loading}
+      pageSize={rowsPerPage}
+      onPageSizeChange={(newPageSize) => setRowsPerPage(newPageSize)}
+      rowsPerPageOptions={[5, 10]}
+      pagination
+      autoHeight
+      sx={{
+        width: "100%",
+        boxShadow: 1,
+        border: 1,
+        "& .MuiDataGrid-cell:hover": {
+          color: "primary.main",
+        },
+      }}
+      components={{ Toolbar: QuickSearchToolbar }}
+    />
   );
-}
+};
 
 export default AnimalsList;

@@ -4,6 +4,8 @@ import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import { useCallback, useEffect, useState } from "react";
 import AnimalsList from "../components/AnimalsList";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 
 const Animals = () => {
   const [animals, setAnimals] = useState<Animal[]>();
@@ -30,21 +32,34 @@ const Animals = () => {
     } catch (exception) {}
   }, []);
 
-  const navigateToForm = (params: Animal) => {
+  const navigateToEditAnimal = (params: Animal) =>
     navigate("/update", { state: params });
-  };
+
+  const navigateToAddAnimal = () => navigate("/add");
 
   useEffect(() => {
     getAnimals();
   }, []);
 
   return (
-    <AnimalsList
-      animals={animals}
-      deleteAnimal={(id: string) => deleteAnimal(id)}
-      updateAnimal={(animal: Animal) => navigateToForm(animal)}
-      loading={loading}
-    />
+    <>
+      <Box paddingLeft={5}>
+        <h2>Establecimiento ganadero</h2>
+      </Box>
+      <Box paddingLeft={5}>
+        <Button variant="contained" onClick={() => navigateToAddAnimal()}>
+          Crear nuevo animal
+        </Button>
+      </Box>
+      <Box padding={5}>
+        <AnimalsList
+          animals={animals}
+          deleteAnimal={(id: string) => deleteAnimal(id)}
+          updateAnimal={(animal: Animal) => navigateToEditAnimal(animal)}
+          loading={loading}
+        />
+      </Box>
+    </>
   );
 };
 

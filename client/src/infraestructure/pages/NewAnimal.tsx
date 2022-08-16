@@ -4,13 +4,14 @@ import AnimalForm from "../components/AnimalForm";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import Snackbar from "@mui/material/Snackbar";
 import useToast from "../hooks/useToast";
+import Box from "@mui/material/Box";
 
 const NewAnimal = () => {
   const { open, openToast, closeToast } = useToast();
 
-  const onSubmit = async (data: Animal) => {
+  const onSubmit = async (animal: Animal) => {
     try {
-      await AnimalService(AnimalRepositoryFake).addAnimal(data);
+      await AnimalService(AnimalRepositoryFake).addAnimal(animal);
       openToast();
     } catch (exception) {
       console.log("Err");
@@ -19,6 +20,9 @@ const NewAnimal = () => {
 
   return (
     <>
+      <Box paddingLeft={5}>
+        <h2>Nuevo animal</h2>
+      </Box>
       <AnimalForm
         onSubmitEvent={(data: Animal) => onSubmit(data)}
         isEdition={false}
