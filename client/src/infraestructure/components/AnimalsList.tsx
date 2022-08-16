@@ -1,9 +1,9 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import usePagination from "../hooks/usePagination";
-import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarQuickFilter, esES } from "@mui/x-data-grid";
 import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import usePagination from "../hooks/usePagination";
 import { searchValue } from "../utils/searchValue";
 import { AnimalListType } from "../types/AnimalList";
 
@@ -73,6 +73,7 @@ const AnimalsList = ({
           color: "primary.main",
         },
       }}
+      localeText={esES.components.MuiDataGrid.defaultProps.localeText}
       components={{ Toolbar: QuickSearchToolbar }}
     />
   );

@@ -1,12 +1,12 @@
-import AnimalForm from "../components/AnimalForm";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
-import Snackbar from "@mui/material/Snackbar";
+import AnimalForm from "../components/AnimalForm";
 import useToast from "../hooks/useToast";
-import { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
 
 const UpdateAnimal = () => {
   const [defaultVal, setDefaultVal] = useState({});

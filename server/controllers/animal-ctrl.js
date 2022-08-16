@@ -95,12 +95,6 @@ getAnimals = async (req, res) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
-    if (!animals.length) {
-      return res.status(404).json({
-        success: false,
-        error: `Ocurrió un error al obtener los animales`,
-      });
-    }
     return res.status(200).json({ success: true, data: animals });
   }).catch((err) => console.log(err));
 };

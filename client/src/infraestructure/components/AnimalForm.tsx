@@ -1,15 +1,12 @@
 import { useForm, Controller } from "react-hook-form";
-import {
-  Animal,
-  AnimalTypeEnum,
-  DeviceTypeEnum,
-} from "../../domain/models/Animal";
 import { TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormHelperText from "@mui/material/FormHelperText";
 import { AnimalFormType } from "../types/AnimalForm";
+import { animalTypeData, deviceTypeData } from "./data/selectData";
+import { Animal } from "../../domain/models/Animal";
 
 const AnimalForm = ({
   defaultValues,
@@ -85,15 +82,11 @@ const AnimalForm = ({
                 </FormHelperText>
               }
             >
-              <MenuItem value={AnimalTypeEnum.NOVILLO}>
-                {AnimalTypeEnum.NOVILLO}
-              </MenuItem>
-              <MenuItem value={AnimalTypeEnum.TORO}>
-                {AnimalTypeEnum.TORO}
-              </MenuItem>
-              <MenuItem value={AnimalTypeEnum.VAQUILLONA}>
-                {AnimalTypeEnum.VAQUILLONA}
-              </MenuItem>
+              {animalTypeData.map((val, index) => (
+                <MenuItem value={val} key={index}>
+                  {val}
+                </MenuItem>
+              ))}
             </TextField>
           </>
         )}
@@ -160,12 +153,11 @@ const AnimalForm = ({
                 </FormHelperText>
               }
             >
-              <MenuItem value={DeviceTypeEnum.CARAVANA}>
-                {DeviceTypeEnum.CARAVANA}
-              </MenuItem>
-              <MenuItem value={DeviceTypeEnum.COLLAR}>
-                {DeviceTypeEnum.COLLAR}
-              </MenuItem>
+              {deviceTypeData.map((val, index) => (
+                <MenuItem value={val} key={index}>
+                  {val}
+                </MenuItem>
+              ))}
             </TextField>
           </>
         )}

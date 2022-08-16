@@ -1,12 +1,12 @@
+import { useCallback, useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
 import { useNavigate } from "react-router-dom";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
-import { useCallback, useEffect, useState } from "react";
 import AnimalsList from "../components/AnimalsList";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Snackbar from "@mui/material/Snackbar";
 import useToast from "../hooks/useToast";
 
 const Animals = () => {
