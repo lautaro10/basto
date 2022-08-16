@@ -1,4 +1,3 @@
-import { Animal } from "../../domain/models/Animal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import usePagination from "../hooks/usePagination";
 import { DataGrid, GridToolbarQuickFilter } from "@mui/x-data-grid";
@@ -6,18 +5,14 @@ import CreateIcon from "@mui/icons-material/Create";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { searchValue } from "../utils/searchValue";
+import { AnimalListType } from "../types/AnimalList";
 
 const AnimalsList = ({
   animals,
   deleteAnimal,
   updateAnimal,
   loading,
-}: {
-  animals?: Animal[];
-  deleteAnimal: any;
-  updateAnimal: any;
-  loading: boolean;
-}) => {
+}: AnimalListType) => {
   const { rowsPerPage, setRowsPerPage } = usePagination();
 
   const renderDetailsButton = (params: any) => {

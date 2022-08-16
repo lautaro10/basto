@@ -9,18 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormHelperText from "@mui/material/FormHelperText";
+import { AnimalFormType } from "../types/AnimalForm";
 
 const AnimalForm = ({
   defaultValues,
   onSubmitEvent,
   onCancelEvent,
   isEdition,
-}: {
-  defaultValues?: any;
-  onSubmitEvent: any;
-  onCancelEvent: any;
-  isEdition: boolean;
-}) => {
+}: AnimalFormType) => {
   const {
     control,
     handleSubmit,
@@ -112,7 +108,7 @@ const AnimalForm = ({
             {...field}
             error={!!errors.weight}
             id="weight"
-            label="Weight*"
+            label="Peso*"
             helperText={
               <FormHelperText>
                 {errors.weight?.type === "required" &&
