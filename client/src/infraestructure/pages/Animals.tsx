@@ -27,17 +27,20 @@ const Animals = () => {
       setLoading(false);
       openToast("No se pudieron obtener los aninmales");
     }
-  }, []);
+  }, [openToast]);
 
-  const deleteAnimal = useCallback(async (id: string) => {
-    try {
-      await AnimalService(AnimalRepositoryFake).deleteAnimal(id);
-      openToast("Animal eliminado correctamente");
-      getAnimals();
-    } catch (exception) {
-      openToast("El animal no pudo ser eliminado");
-    }
-  }, []);
+  const deleteAnimal = useCallback(
+    async (id: string) => {
+      try {
+        await AnimalService(AnimalRepositoryFake).deleteAnimal(id);
+        openToast("Animal eliminado correctamente");
+        getAnimals();
+      } catch (exception) {
+        openToast("El animal no pudo ser eliminado");
+      }
+    },
+    [openToast, getAnimals]
+  );
 
   const navigateToEditAnimal = (params: Animal) =>
     navigate("/update", { state: params });

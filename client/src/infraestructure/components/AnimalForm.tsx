@@ -45,7 +45,7 @@ const AnimalForm = ({
       <Controller
         name="id"
         control={control}
-        rules={{ required: true, maxLength: 16 }}
+        rules={{ required: true, maxLength: 16, minLength: 16 }}
         render={({ field }) => (
           <TextField
             label="ID Senasa*"
@@ -55,7 +55,9 @@ const AnimalForm = ({
             helperText={
               <FormHelperText>
                 {errors.id?.type === "required" && "Id es requerido"}
-                {errors.id?.type === "maxLength" && "La longitud maxima es 16"}
+                {errors.id?.type === "maxLength" ||
+                  (errors.id?.type === "minLength" &&
+                    "La longitud debe ser de 16 caracteres")}
               </FormHelperText>
             }
             disabled={isEdition}
