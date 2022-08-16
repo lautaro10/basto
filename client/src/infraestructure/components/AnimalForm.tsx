@@ -3,7 +3,6 @@ import { TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import FormHelperText from "@mui/material/FormHelperText";
 import { AnimalFormType } from "../types/AnimalForm";
 import { animalTypeData, deviceTypeData } from "./data/selectData";
 import { Animal } from "../../domain/models/Animal";
@@ -27,6 +26,13 @@ const AnimalForm = ({
       onSubmitEvent(data);
     }
   };
+
+  const renderMenuItems = (data: string[]) =>
+    data.map((val, index) => (
+      <MenuItem value={val} key={index}>
+        {val}
+      </MenuItem>
+    ));
 
   return (
     <Box
@@ -53,12 +59,12 @@ const AnimalForm = ({
             id="id"
             {...field}
             helperText={
-              <FormHelperText>
+              <>
                 {errors.id?.type === "required" && "Id es requerido"}
                 {errors.id?.type === "maxLength" ||
                   (errors.id?.type === "minLength" &&
                     "La longitud debe ser de 16 caracteres")}
-              </FormHelperText>
+              </>
             }
             disabled={isEdition}
           />
@@ -78,17 +84,13 @@ const AnimalForm = ({
               {...field}
               error={!!errors.animalType}
               helperText={
-                <FormHelperText>
+                <>
                   {errors.animalType?.type === "required" &&
                     "El tipo de animal es requerido"}
-                </FormHelperText>
+                </>
               }
             >
-              {animalTypeData.map((val, index) => (
-                <MenuItem value={val} key={index}>
-                  {val}
-                </MenuItem>
-              ))}
+              {renderMenuItems(animalTypeData)}
             </TextField>
           </>
         )}
@@ -105,10 +107,10 @@ const AnimalForm = ({
             id="weight"
             label="Peso*"
             helperText={
-              <FormHelperText>
+              <>
                 {errors.weight?.type === "required" &&
                   "El peso del animal es requerido"}
-              </FormHelperText>
+              </>
             }
           />
         )}
@@ -125,12 +127,12 @@ const AnimalForm = ({
               id="farmName"
               label="Nombre de potrero*"
               helperText={
-                <FormHelperText>
+                <>
                   {errors.farmName?.type === "required" &&
                     "El nombre del campo es requerido"}
                   {errors.farmName?.type === "maxLength" &&
                     "La longitud maxima es 200"}
-                </FormHelperText>
+                </>
               }
             />
           )}
@@ -149,17 +151,13 @@ const AnimalForm = ({
               select
               label="Tipo Dispositivo*"
               helperText={
-                <FormHelperText>
+                <>
                   {errors.deviceType?.type === "required" &&
                     "El tipo de dispositivo es requerido"}
-                </FormHelperText>
+                </>
               }
             >
-              {deviceTypeData.map((val, index) => (
-                <MenuItem value={val} key={index}>
-                  {val}
-                </MenuItem>
-              ))}
+              {renderMenuItems(deviceTypeData)}
             </TextField>
           </>
         )}
@@ -175,10 +173,10 @@ const AnimalForm = ({
             id="deviceNumber"
             label="Número de dispositivo*"
             helperText={
-              <FormHelperText>
+              <>
                 {errors.deviceNumber?.type === "required" &&
                   "El número de dispositivo es requerido"}
-              </FormHelperText>
+              </>
             }
           />
         )}
