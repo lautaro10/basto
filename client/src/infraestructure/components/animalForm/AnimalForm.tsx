@@ -1,11 +1,12 @@
 import { useForm, Controller } from "react-hook-form";
-import { TextField } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import { AnimalFormType } from "../types/AnimalForm";
-import { animalTypeData, deviceTypeData } from "./data/selectData";
-import { Animal } from "../../domain/models/Animal";
+import { TextField, MenuItem, Box, Button } from "@mui/material";
+import { AnimalFormType } from "../../types/AnimalForm";
+import { animalTypeData, deviceTypeData } from "../data/selectData";
+import {
+  Animal,
+  AnimalTypeEnum,
+  DeviceTypeEnum,
+} from "../../../domain/models/Animal";
 
 const AnimalForm = ({
   defaultValues,
@@ -18,7 +19,16 @@ const AnimalForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<Animal>({
-    defaultValues: defaultValues,
+    defaultValues: defaultValues
+      ? defaultValues
+      : {
+          id: "",
+          animalType: AnimalTypeEnum.NOVILLO,
+          weight: "",
+          deviceType: DeviceTypeEnum.CARAVANA,
+          deviceNumber: "",
+          farmName: "",
+        },
   });
 
   const onSubmit = async (data: Animal) => {
@@ -59,12 +69,12 @@ const AnimalForm = ({
             id="id"
             {...field}
             helperText={
-              <>
+              <span role="alert">
                 {errors.id?.type === "required" && "Id es requerido"}
                 {errors.id?.type === "maxLength" ||
                   (errors.id?.type === "minLength" &&
                     "La longitud debe ser de 16 caracteres")}
-              </>
+              </span>
             }
             disabled={isEdition}
           />
@@ -84,10 +94,10 @@ const AnimalForm = ({
               {...field}
               error={!!errors.animalType}
               helperText={
-                <>
+                <span role="alert">
                   {errors.animalType?.type === "required" &&
                     "El tipo de animal es requerido"}
-                </>
+                </span>
               }
             >
               {renderMenuItems(animalTypeData)}
@@ -99,18 +109,21 @@ const AnimalForm = ({
       <Controller
         name="weight"
         control={control}
-        rules={{ required: true }}
+        rules={{ required: true,  }}
         render={({ field }) => (
           <TextField
             {...field}
             error={!!errors.weight}
             id="weight"
+            type="number"
             label="Peso*"
             helperText={
-              <>
+              <span role="alert">
                 {errors.weight?.type === "required" &&
                   "El peso del animal es requerido"}
-              </>
+                {errors.weight?.type === "min" &&
+                  "El peso del animal debe ser mayor a cero"}
+              </span>
             }
           />
         )}
@@ -127,12 +140,12 @@ const AnimalForm = ({
               id="farmName"
               label="Nombre de potrero*"
               helperText={
-                <>
+                <span role="alert">
                   {errors.farmName?.type === "required" &&
                     "El nombre del campo es requerido"}
                   {errors.farmName?.type === "maxLength" &&
                     "La longitud maxima es 200"}
-                </>
+                </span>
               }
             />
           )}
@@ -151,10 +164,10 @@ const AnimalForm = ({
               select
               label="Tipo Dispositivo*"
               helperText={
-                <>
+                <span role="alert">
                   {errors.deviceType?.type === "required" &&
                     "El tipo de dispositivo es requerido"}
-                </>
+                </span>
               }
             >
               {renderMenuItems(deviceTypeData)}
@@ -173,10 +186,10 @@ const AnimalForm = ({
             id="deviceNumber"
             label="Número de dispositivo*"
             helperText={
-              <>
+              <span role="alert">
                 {errors.deviceNumber?.type === "required" &&
                   "El número de dispositivo es requerido"}
-              </>
+              </span>
             }
           />
         )}

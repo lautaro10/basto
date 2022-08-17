@@ -1,11 +1,10 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridToolbarQuickFilter, esES } from "@mui/x-data-grid";
 import CreateIcon from "@mui/icons-material/Create";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import usePagination from "../hooks/usePagination";
-import { searchValue } from "../utils/searchValue";
-import { AnimalListType } from "../types/AnimalList";
+import { Button, Box } from "@mui/material";
+import usePagination from "../../hooks/usePagination";
+import { searchValue } from "../../utils/searchValue";
+import { AnimalListType } from "../../types/AnimalList";
 
 const AnimalsList = ({
   animals,
@@ -61,7 +60,7 @@ const AnimalsList = ({
       disableColumnMenu
       loading={loading}
       pageSize={rowsPerPage}
-      onPageSizeChange={(newPageSize) => setRowsPerPage(newPageSize)}
+      onPageSizeChange={(newPageSize: number) => setRowsPerPage(newPageSize)}
       rowsPerPageOptions={[5, 10]}
       pagination
       autoHeight

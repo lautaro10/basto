@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Snackbar from "@mui/material/Snackbar";
+import { Box, Snackbar } from "@mui/material";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
-import AnimalForm from "../components/AnimalForm";
+import AnimalForm from "../components/animalForm/AnimalForm";
 import useToast from "../hooks/useToast";
 
 const UpdateAnimal = () => {

@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
-import Snackbar from "@mui/material/Snackbar";
-import Box from "@mui/material/Box";
+import { Snackbar, Box } from "@mui/material";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
-import AnimalForm from "../components/AnimalForm";
+import AnimalForm from "../components/animalForm/AnimalForm";
 import useToast from "../hooks/useToast";
 
 const NewAnimal = () => {
