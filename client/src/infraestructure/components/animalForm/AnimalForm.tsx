@@ -71,9 +71,9 @@ const AnimalForm = ({
             helperText={
               <span role="alert">
                 {errors.id?.type === "required" && "Id es requerido"}
-                {errors.id?.type === "maxLength" ||
-                  (errors.id?.type === "minLength" &&
-                    "La longitud debe ser de 16 caracteres")}
+                {(errors.id?.type === "maxLength" ||
+                  errors.id?.type === "minLength") &&
+                  "La longitud debe ser de 16 caracteres"}
               </span>
             }
             disabled={isEdition}
@@ -109,7 +109,7 @@ const AnimalForm = ({
       <Controller
         name="weight"
         control={control}
-        rules={{ required: true,  }}
+        rules={{ required: true }}
         render={({ field }) => (
           <TextField
             {...field}

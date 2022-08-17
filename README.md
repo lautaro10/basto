@@ -111,3 +111,5 @@ Funciones generales utlizadas en la aplicacion
 ###### A nivel diseño se optó por hacer diferentes rutas para la carga y actualizacion de animales y no por medio de un modal en la misma ruta
 
 ###### Al momento de editar un animal el campo ID se establece como deshabilitado. Se controla si hubo cambios al editar un animal antes de hacer el update a la BD
+
+###### Se optó por hacer delete fisico en la Bd, no por manejo de estados
