@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button, Box, Snackbar } from "@mui/material";
+import { Button, Box, Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
@@ -10,7 +10,7 @@ import useToast from "../hooks/useToast";
 const Animals = () => {
   const [animals, setAnimals] = useState<Animal[]>();
   const [loading, setLoading] = useState<boolean>(false);
-  const { open, openToast, closeToast, message } = useToast();
+  const { open, openToast, closeToast, message, type } = useToast();
   const navigate = useNavigate();
 
   const getAnimals = useCallback(async () => {
@@ -71,8 +71,9 @@ const Animals = () => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={closeToast}
-        message={message}
-      />
+      >
+        <Alert severity={type}>{message}</Alert>
+      </Snackbar>
     </>
   );
 };

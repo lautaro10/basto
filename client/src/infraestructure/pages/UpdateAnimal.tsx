@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Box, Snackbar } from "@mui/material";
+import { Box, Snackbar, Alert } from "@mui/material";
 import { Animal } from "../../domain/models/Animal";
 import { AnimalService } from "../../domain/services/AnimalService";
 import { AnimalRepositoryFake } from "../instances/AnimalRepositoryFake";
 import AnimalForm from "../components/animalForm/AnimalForm";
-import useToast from "../hooks/useToast";
+import useToast, { alertColorEnum } from "../hooks/useToast";
 
 const UpdateAnimal = () => {
   const [defaultVal, setDefaultVal] = useState({});
-  const { open, openToast, closeToast, message } = useToast();
+  const { open, openToast, closeToast, message, type } = useToast();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,13 +32,16 @@ const UpdateAnimal = () => {
 
   const onSubmit = async (animal: Animal) => {
     if (JSON.stringify(animal) === JSON.stringify(defaultVal)) {
-      return openToast("No hay cambios realizados en el formulario");
+      return openToast(
+        "No hay cambios realizados en el formulario",
+        alertColorEnum.WARNING
+      );
     }
     try {
       await AnimalService(AnimalRepositoryFake).updateAnimal(animal);
       openToast("Animal Editado correctamente");
     } catch (exception) {
-      openToast("El animal no pudo ser editado");
+      openToast("El animal no pudo ser editado", alertColorEnum.ERROR);
     }
   };
 
@@ -61,8 +64,9 @@ const UpdateAnimal = () => {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         open={open}
         onClose={closeToast}
-        message={message}
-      />
+      >
+        <Alert severity={type}>{message}</Alert>
+      </Snackbar>
     </>
   );
 };
