@@ -3,7 +3,7 @@ import { DataGrid, GridToolbarQuickFilter, esES } from "@mui/x-data-grid";
 import CreateIcon from "@mui/icons-material/Create";
 import { Button, Box } from "@mui/material";
 import usePagination from "../../hooks/usePagination";
-import { searchValue } from "../../utils/searchValue";
+import { transformValueToArray } from "../../utils/searchValue";
 import { AnimalListType } from "../../types/AnimalList";
 
 const AnimalsList = ({
@@ -47,7 +47,7 @@ const AnimalsList = ({
       <Box sx={{ p: 2 }}>
         <GridToolbarQuickFilter
           placeholder="Busqueda"
-          quickFilterParser={(searchInput: string) => searchValue(searchInput)}
+          quickFilterParser={(searchInput: string) => transformValueToArray(searchInput)}
         />
       </Box>
     );

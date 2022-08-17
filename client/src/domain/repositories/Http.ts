@@ -1,16 +1,17 @@
+// Methods we need to implement for http.
 export interface Http {
   get: <T>(
-    path: string,
+    path?: string,
     params?: Record<string, any>,
     config?: any
   ) => Promise<T | any>;
   post: <T>(
-    path: string,
+    path?: string,
     params?: Record<string, any>,
     config?: any
   ) => Promise<T | any>;
   put: <T>(
-    path: string,
+    path?: string,
     params?: Record<string, any>,
     config?: any
   ) => Promise<T | any>;

@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
 
+// Custom theme for the application
 export const customTheme = createTheme({
   palette: {
     primary: {
