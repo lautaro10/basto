@@ -3,7 +3,7 @@ import { DataGrid, GridToolbarQuickFilter, esES } from "@mui/x-data-grid";
 import CreateIcon from "@mui/icons-material/Create";
 import { Button, Box } from "@mui/material";
 import usePagination from "../../hooks/usePagination";
-import { transformValueToArray } from "../../utils/searchValue";
+import { transformValueToArray } from "../../utils/transformValueToArray";
 import { AnimalListType } from "../../types/AnimalList";
 
 const AnimalsList = ({
